@@ -28,11 +28,14 @@ route.post('/register', async (req, res) => {
             else {
                 db.query(`INSERT INTO ${table} (username, password) VALUES (?,?)`, [lowerUsername, hashedPassword], (err, data) => {
                     // if(err) res.status(500).json({error: true, message: `Something went wrong, we could not process your registration. ${err}`}) //Include the ${err} to see the cause ONLY in development
-                    if(err) return res.status(500).json({error: true, message: `Error after inserting into the table.`})
-                    return res.status(201).json({error: false, message: `Welcome to NathanBlog ${username}`, data})
-                })
+                    if(err) return res.status(500).json({error: true, message: `Error after inserting into the table.`});
+                    res.redirect('/create-post');
+                    return res.status(201).json({error: false, message: `Welcome to NathanBlog ${username}`, data});
+
+                    
+                });
             }
-        })
+        });
 
     } catch (error) {
         console.error(error);

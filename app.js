@@ -1,29 +1,30 @@
 const express = require ('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config()
 
 const app = express();
 app.use(cors({
-    origin: "http://localhost:3000",
-    credentials: true
+    origin: "*",
+    // credentials: true
 }))
 
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json())
 app.use(express.static(__dirname + '/public'));
 
 // ROUTE HANDLERS
 const authRoute = require("./routes/auth.js")
+const postRoute = require("./routes/post.js")
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 // Admin Route
 app.use("/auth/admin", authRoute)
-// app.get('/admin/register', (req, res) => {
-//     res.sendFile(__dirname + '/public/admin-register.html');
-// });
+app.use("/post", postRoute)
+app.get('/admin/register', (req, res) => {
+    res.redirect('/create-post');
+});
 app.get('*', (req, res) => {
     res.sendFile(__dirname + '/public/error.html');
 });
