@@ -19,6 +19,9 @@ const postRoute = require("./routes/post.js")
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
+app.get('/create-post', (req, res) => {
+    res.sendFile(__dirname + '/public/create-post.html');
+});
 // Admin Route
 app.use("/auth/admin", authRoute)
 app.use("/post", postRoute)
